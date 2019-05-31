@@ -1,0 +1,47 @@
+<head>
+  <link rel="stylesheet" href="/style.css">
+
+</head>
+
+<header>
+<h1 id="welcome">Welcome, <%= current_user.name %>!</h1>
+<a id="logout" href="/logout">Log Out</a>
+</header>
+
+<body>
+<div id="search">
+<h1>Search:</h1>
+<form class="" action="/search" method="post">
+  <input type="text" name="search" value="">
+  <button type="submit">Search!</button>
+</form>
+</div>
+
+<div id="playlists">
+<h2>Create playlist:</h2>
+<form class="" action="/playlists" method="post">
+  <input type="text" name="name" placeholder="Playlist Name">
+  <button type="submit">Create!</button>
+</form>
+
+<h2>My Playlists:</h2>
+
+<% current_user.playlists.each do |playlist| %>
+
+  <div id="playlist">
+  <a href="/playlists/<%= playlist.id %>"><%= playlist.name %></a>
+  <form action="/playlists/<%= playlist.id %>/delete" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <button type="submit">Delete</button>
+  </form>
+  </div>
+
+<% end %>
+</div>
+
+
+<% unless results.empty? %>
+  <%= erb :results, locals: {results: results, onlytrackresults: results["tracks"]["items"].map{|item| item["name"]}} %>
+<% end %>
+
+</body>
